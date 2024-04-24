@@ -15,7 +15,7 @@ extern "C" {
 
 EOF
 
-for i in `seq 1 100`;
+for i in $(seq 1 100);
 do
 cat >> SampleExports.h << EOF
 SAMPLEDLL_API int add$i(int a);
@@ -37,7 +37,7 @@ cat > SampleExports.cpp << EOF
 extern "C" {
 EOF
 
-for i in `seq 1 100 | sort -R`;
+for i in $(seq 1 100 | sort -R);
 do
 cat >> SampleExports.cpp << EOF
 SAMPLEDLL_API int add$i(int a)
