@@ -234,10 +234,10 @@ void InitFreeFuncs(CallList* calls, ...) {
 }
 
 void InitFreeFunc(CallList* calls, CustomFreeFunc freeFunc) {
-	for (int i = 0; i < MAX_CALLS; i++) {
-		calls->free_calls[i] = freeFunc;
-	}
-	calls->current_free_call = 0;
+    for (int i = 0; i < MAX_CALLS; i++) {
+        calls->free_calls[i] = freeFunc;
+    }
+    calls->current_free_call = 0;
 }
 
 void TestFailingAllocation(void *data, size_t size) {
@@ -248,8 +248,8 @@ void TestFailingAllocation(void *data, size_t size) {
     InitFreeFuncs(&expected_calls, NULL);
 
     handle = MemoryLoadLibraryEx(
-        data, size, MemoryMockAlloc, MemoryMockFree, MemoryDefaultLoadLibrary,
-        MemoryDefaultGetProcAddress, MemoryDefaultFreeLibrary, &expected_calls);
+                 data, size, MemoryMockAlloc, MemoryMockFree, MemoryDefaultLoadLibrary,
+                 MemoryDefaultGetProcAddress, MemoryDefaultFreeLibrary, &expected_calls);
 
     assert(handle == NULL);
     assert(GetLastError() == ERROR_OUTOFMEMORY);
@@ -265,17 +265,17 @@ void TestCleanupAfterFailingAllocation(void *data, size_t size) {
     int free_calls_after_loading;
 
     InitAllocFuncs(&expected_calls,
-        MemoryDefaultAlloc,
-        MemoryDefaultAlloc,
-        MemoryDefaultAlloc,
-        MemoryDefaultAlloc,
-        MemoryFailingAlloc,
-        NULL);
+                   MemoryDefaultAlloc,
+                   MemoryDefaultAlloc,
+                   MemoryDefaultAlloc,
+                   MemoryDefaultAlloc,
+                   MemoryFailingAlloc,
+                   NULL);
     InitFreeFuncs(&expected_calls, MemoryDefaultFree, NULL);
 
     handle = MemoryLoadLibraryEx(
-        data, size, MemoryMockAlloc, MemoryMockFree, MemoryDefaultLoadLibrary,
-        MemoryDefaultGetProcAddress, MemoryDefaultFreeLibrary, &expected_calls);
+                 data, size, MemoryMockAlloc, MemoryMockFree, MemoryDefaultLoadLibrary,
+                 MemoryDefaultGetProcAddress, MemoryDefaultFreeLibrary, &expected_calls);
 
     free_calls_after_loading = expected_calls.current_free_call;
 
@@ -288,12 +288,12 @@ void TestFreeAfterDefaultAlloc(void *data, size_t size) {
     HMEMORYMODULE handle;
     int free_calls_after_loading;
 
-	// Note: free might get called internally multiple times
+    // Note: free might get called internally multiple times
     InitFreeFunc(&expected_calls, MemoryDefaultFree);
 
     handle = MemoryLoadLibraryEx(
-        data, size, MemoryDefaultAlloc, MemoryMockFree, MemoryDefaultLoadLibrary,
-        MemoryDefaultGetProcAddress, MemoryDefaultFreeLibrary, &expected_calls);
+                 data, size, MemoryDefaultAlloc, MemoryMockFree, MemoryDefaultLoadLibrary,
+                 MemoryDefaultGetProcAddress, MemoryDefaultFreeLibrary, &expected_calls);
 
     assert(handle != NULL);
     free_calls_after_loading = expected_calls.current_free_call;
@@ -326,8 +326,8 @@ void TestAllocHighMemory(void *data, size_t size) {
     TCHAR buffer[100];
 
     handle = MemoryLoadLibraryEx(
-        data, size, MemoryAllocHigh, MemoryDefaultFree, MemoryDefaultLoadLibrary,
-        MemoryDefaultGetProcAddress, MemoryDefaultFreeLibrary, &counter);
+                 data, size, MemoryAllocHigh, MemoryDefaultFree, MemoryDefaultLoadLibrary,
+                 MemoryDefaultGetProcAddress, MemoryDefaultFreeLibrary, &counter);
 
     assert(handle != NULL);
 
