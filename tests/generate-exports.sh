@@ -4,7 +4,7 @@
 ## Generate header file.
 ##
 
-cat > SampleExports.h << EOF
+cat >SampleExports.h <<EOF
 extern "C" {
 
 #ifdef SAMPLEDLL_EXPORTS
@@ -15,31 +15,28 @@ extern "C" {
 
 EOF
 
-for i in "$(seq 1 100)";
-do
-cat >> SampleExports.h << EOF
+for i in "$(seq 1 100)"; do
+  cat >>SampleExports.h <<EOF
 SAMPLEDLL_API int add$i(int a);
 EOF
 done
 
-cat >> SampleExports.h << EOF
+cat >>SampleExports.h <<EOF
 }
 EOF
-
 
 ##
 ## Generate source file.
 ##
 
-cat > SampleExports.cpp << EOF
+cat >SampleExports.cpp <<EOF
 #include "SampleExports.h"
 
 extern "C" {
 EOF
 
-for i in "$(seq 1 100 | sort -R)";
-do
-cat >> SampleExports.cpp << EOF
+for i in "$(seq 1 100 | sort -R)"; do
+  cat >>SampleExports.cpp <<EOF
 SAMPLEDLL_API int add$i(int a)
 {
     return a + $i;
@@ -47,7 +44,7 @@ SAMPLEDLL_API int add$i(int a)
 EOF
 done
 
-cat >> SampleExports.cpp << EOF
+cat >>SampleExports.cpp <<EOF
 #ifdef _WIN64
 SAMPLEDLL_API void throwException(void)
 {
